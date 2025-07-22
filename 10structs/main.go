@@ -12,7 +12,17 @@ func main() {
 
 	fmt.Printf("Divyansh details are : %+v\n", Divyansh)
 
-	fmt.Printf("Name is %v and email is %v", Divyansh.Name, Divyansh.Email)
+	fmt.Printf("Name is %v and email is %v\n", Divyansh.Name, Divyansh.Email)
+
+	person := struct {
+		name string
+		age  int
+	}{
+
+		"Alice",
+		30,
+	}
+	fmt.Println(person.name) // Output: Alice
 
 }
 
