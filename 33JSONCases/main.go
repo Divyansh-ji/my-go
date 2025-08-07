@@ -2,7 +2,10 @@ package main
 
 import (
 	"encoding/json"
+
 	"fmt"
+
+	"strings"
 )
 
 func main() {
@@ -27,7 +30,7 @@ func main() {
 
 	//declared empty interface to hold the decoded data
 
-	var result interface{}
+	var result interface
 
 	err := json.Unmarshal(jsonData, &result)
 	if err != nil {
@@ -36,6 +39,7 @@ func main() {
 	// Type assertion : convert interface{} to map[string]interface{}
 
 	data := result.(map[string]interface{})
+	
 
 	// Access the feil dynamically
 
@@ -48,7 +52,32 @@ func main() {
 
 	fmt.Println("\n-- All Key-Value Pairs --")
 	for key, value := range data {
-		fmt.Println("%s : %v\n", key, value)
+		fmt.Printf("%s : %v\n", key, value)
 	}
 
+
+	// using custome marshal function
+	 u := User{Name : "Divyansh ", Age: 22}
+	 jsonDataa , _ :=json.Marshal(u)
+
+	 fmt.Println(string(jsonDataa))
 }
+
+//CUSTOM MARSHAL/UNMARSHAL
+func (u *User) MarshalJSON() ([]byte, error) {
+
+	//create a custom structure to send as json
+
+	type Alias User //avoid infinite recursion
+	return json.Marshal(&struct {
+		Name string `json:"name"`
+	}{
+		Name: strings.ToUpper(u.Name),
+	})
+}
+
+type User struct {
+	Name string
+	Age  int
+}
+
