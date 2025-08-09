@@ -21,16 +21,17 @@ func main() {
 	//conversion :
 
 	//Json -> struct(go data structure ) using unmarshal
-	//struct -> JSON(universal formate) using unmarshal
+	//struct -> JSON(universal formate) using marshal
+	//
 
 	// Example to understand
 
 	resp, err := http.Get("https://jsonplaceholder.typicode.com/posts/1")
 	if err != nil {
 		fmt.Println("Error has been occured", err)
-
-		defer resp.Body.Close()
 	}
+	defer resp.Body.Close()
+
 	//we read response to check the feild we need to write in struct so we can get all the data from json\
 
 	body, _ := io.ReadAll(resp.Body)
