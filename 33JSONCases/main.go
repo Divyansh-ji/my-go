@@ -28,9 +28,9 @@ func main() {
 
 	}`)
 
-	//declared empty interface to hold the decoded data
+	//declared empty inter face to hold the decoded data
 
-	var result interface
+	var result interface{}
 
 	err := json.Unmarshal(jsonData, &result)
 	if err != nil {
