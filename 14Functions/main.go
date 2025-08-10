@@ -21,7 +21,7 @@ func result(a int, b int) int {
 	return a + b
 }
 
-// pro functions
+// pro functions or variadac function
 func proAdder(values ...int) (int, string) {
 	total := 0
 

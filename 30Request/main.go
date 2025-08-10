@@ -50,4 +50,20 @@ func main() {
 	fmt.Println("readed text", string(bodyy))
 	defer req.Body.Close()
 
+	//Type response example
+
+	resp, err = http.Get("https://example.com/data")
+	if err != nil {
+		// handle error
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Status:", resp.StatusCode, resp.Status)
+	content, _ := io.ReadAll(resp.Body)
+	fmt.Println("Body length:", resp.ContentLength)
+	fmt.Println("Content-Type:", resp.Header.Get("Content-Type"))
+	fmt.Println("Body content:", string(content))
+
+	//String way to make request
+
 }

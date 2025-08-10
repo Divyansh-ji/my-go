@@ -10,10 +10,10 @@ func main() {
 
 	myNumber := 23
 
-	var ptr = &myNumber
+	var ptr = &myNumber //address of 23 is stored here
 
 	fmt.Println("Value of actual pointer is ", ptr)
-	fmt.Println("Value of actual pointer is ", *ptr)
+	fmt.Println("Value of actual pointer is ", *ptr) //by using this we will get what is at that pointer
 
 	*ptr = *ptr * 2
 	fmt.Println("New Value is :", myNumber)

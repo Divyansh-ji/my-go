@@ -45,7 +45,13 @@ func main() {
 
 	//using http client used to send the request
 
-	client := &http.Client{}
+	//Why we use client??
+
+	//http.client is acts as browser for sending http request and handling response
+	//we use client instead of basic get bcoz it allow to send customize requests
+	// like we set headers timeout etc stuffs
+
+	client := &http.Client{} // this step will make your own client
 	resp, err = client.Do(req)
 	if err != nil {
 		fmt.Println("Error in sending requenst", err)
