@@ -69,7 +69,7 @@ func main() {
 //we dont know which feild are present
 
 type Post struct {
-	UserID int    `json:"userId"`
+	UserID int    `json:"abdul"`
 	ID     int    `json:"id"`
 	Title  string `json:"title"`
 	Body   string `json:"body"`
