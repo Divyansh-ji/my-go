@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -8,10 +9,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type Post struct {
+	UserID int    `json:"userId"`
+	ID     int    `json:"id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/greet", greeting).Methods("GET")
 	r.HandleFunc("/square", squu).Methods("GET")
+	r.HandleFunc("/posts", postby).Methods("GET")
 	http.ListenAndServe(":8080", r)
 }
 
@@ -41,4 +50,32 @@ func squu(w http.ResponseWriter, r *http.Request) {
 
 	result := num * num
 	fmt.Fprintf(w, "%d", result)
+}
+func postby(w http.ResponseWriter, r *http.Request) {
+	params := r.URL.Query()
+	user := params.Get("userID")
+
+	if user == "" {
+		http.Error(w, "userid query parameter is required", http.StatusBadRequest)
+		return
+	}
+	resp, err := http.Get("https://jsonplaceholder.typicode.com/posts?userId=<userId>")
+
+	if err != nil {
+		http.Error(w, "Failed to fetch posts", http.StatusBadRequest)
+		return
+
+	}
+	defer resp.Body.Close()
+
+	var posts []Post
+
+	if err := json.NewDecoder(resp.Body).Decode(&posts); err != nil {
+		http.Error(w, "Failed to parse the post", http.StatusBadRequest)
+
+	}
+	for _, post := range posts {
+		fmt.Println(w, post.Title)
+
+	}
 }
