@@ -21,6 +21,7 @@ func main() {
 	r.HandleFunc("/greet", greeting).Methods("GET")
 	r.HandleFunc("/square", squu).Methods("GET")
 	r.HandleFunc("/posts", postby).Methods("GET")
+	r.HandleFunc("/filter", filterby).Methods("GET")
 	http.ListenAndServe(":8080", r)
 }
 
@@ -78,4 +79,28 @@ func postby(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(w, post.Title)
 
 	}
+}
+
+func filterby(w http.ResponseWriter, r *http.Request) {
+	var list []int
+	params := r.URL.Query()
+	minn := params.Get("min")
+	minnum, err := strconv.Atoi(minn)
+	if err != nil {
+		http.Error(w, "invalid", http.StatusBadRequest)
+	}
+
+	maxx := params.Get("max")
+	maxnum, err := strconv.Atoi(maxx)
+	if err != nil {
+		http.Error(w, "invalid", http.StatusBadRequest)
+	}
+
+	for i := minnum; i <= maxnum; i++ {
+
+		list = append(list, i)
+
+	}
+	fmt.Fprintf(w, "so the list is  %v", list)
+
 }
