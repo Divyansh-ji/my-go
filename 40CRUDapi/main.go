@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -29,18 +28,14 @@ func Getitembyname(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	searchName := vars["name"]
 
-	// Loop and check for a match (case-insensitive)
 	for _, item := range items {
-		if strings.EqualFold(item.Name, searchName) { // EqualFold ignores case
+		if item.Name == searchName {
 			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(item)
-			return
+			return // stop here after sending the response
 		}
 	}
 
 	// If no match found
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusNotFound)
-	json.NewEncoder(w).Encode(map[string]string{"error": "Item not found"})
+	http.Error(w, "Item not found", http.StatusNotFound)
 }
