@@ -73,4 +73,5 @@ func updatedTask(ctx *gin.Context) {
 		}
 	}
 	ctx.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+
 }
